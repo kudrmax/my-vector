@@ -29,7 +29,8 @@ public:
 public:
     MyVector operator*() const { return *m_arr; };
     T* operator->() const { return m_arr; };
-    explicit operator int() const { return m_size; }
+    explicit operator int() const { return m_size; };
+//    friend std::ostream& operator<<(std::ostream& out, const MyVector<T>& vec);
 public:
     T& operator[](int index);
     T& at(int index);
@@ -37,8 +38,8 @@ public:
     const T& at(int index) const;
 public:
 //    size_t size() { return m_size; }
-    void prT() const {
-        std::cout << "obj: ";
+    void print() const {
+        std::cout << "vec: ";
         for (size_t i = 0; i < m_size; i++)
             std::cout << m_arr[i];
         std::cout << std::endl;
@@ -55,6 +56,7 @@ template<typename T>
 MyVector<T>::MyVector(size_t size, T num) : MyVector(size) {
     for (size_t i = 0; i < m_size; i++)
         m_arr[i] = num;
+
 }
 
 template<typename T>
@@ -71,7 +73,7 @@ MyVector<T>::~MyVector() {
 
 template<typename T>
 MyVector<T>::MyVector(const MyVector& obj) : MyVector(obj.m_size) {
-    for (T i = 0; i < obj.m_size; i++)
+    for (size_t i = 0; i < obj.m_size; i++)
         m_arr[i] = *(obj.m_arr + i);
 }
 
@@ -118,7 +120,7 @@ MyVector<T>& MyVector<T>::operator+=(const MyVector& obj) {
 
 template<typename T>
 MyVector<T>& MyVector<T>::operator++() {
-    for (T i = 0; i < m_size; i++)
+    for (size_t i = 0; i < m_size; i++)
         ++m_arr[i];
     return *this;
 }
@@ -132,7 +134,7 @@ const MyVector<T> MyVector<T>::operator++(int) {
 
 template<typename T>
 MyVector<T>& MyVector<T>::operator--() {
-    for (T i = 0; i < m_size; i++)
+    for (size_t i = 0; i < m_size; i++)
         --m_arr[i];
     return *this;
 }
@@ -150,7 +152,7 @@ bool MyVector<T>::operator==(const MyVector& obj) const noexcept {
         return true;
     if (m_size != obj.m_size)
         return false;
-    for (T i = 0; i < m_size; i++)
+    for (size_t i = 0; i < m_size; i++)
         if (m_arr[i] != obj.m_arr[i])
             return false;
     return true;
@@ -163,7 +165,7 @@ bool MyVector<T>::operator!=(const MyVector& obj) const noexcept {
 
 template<typename T>
 bool MyVector<T>::operator<(const MyVector& obj) const noexcept {
-    for (T i = 0; i < std::min(m_size, obj.m_size); i++) {
+    for (size_t i = 0; i < std::min(m_size, obj.m_size); i++) {
         if (m_arr[i] < obj.m_arr[i])
             return true;
         if (m_arr[i] > obj.m_arr[i])
@@ -209,3 +211,11 @@ const T& MyVector<T>::at(int index) const {
         throw std::runtime_error("Out of range!");
     return operator[](index);
 }
+
+//template<typename T>
+//std::ostream& operator<<(std::ostream& out, const MyVector<T>& vec) {
+////    for (int i = 0; i < vec.m_size; i++)
+////        out << vec.m_arr[i];
+//    out << 111;
+//    return out;
+//}
