@@ -12,6 +12,18 @@ public:
     MyVector(MyVector&& other_vec) noexcept; // конструктор перемещения
     ~MyVector(); // деструктор
 public:
+    MyVector& operator=(const MyVector& vec); // оператор копирующего присваивания
+    MyVector& operator=(MyVector&& vec) noexcept; // оператор move присваивания
+    MyVector& operator+=(const MyVector& vec);
+    MyVector& operator-();
+    MyVector& operator++();
+    const MyVector operator++(int);
+public:
+    bool operator==(const MyVector& vec) const noexcept;
+    bool operator!=(const MyVector& vec) const noexcept;
+public:
+    MyVector& operator[](size_t index);
+    const MyVector& operator[](size_t index) const;
 public:
 //    size_t size() { return m_size; }
     void print() {
@@ -50,4 +62,24 @@ MyVector::MyVector(const MyVector& other_vec) : MyVector(other_vec.m_size) {
 MyVector::MyVector(MyVector&& other_vec) noexcept {
     std::swap(other_vec.m_size, m_size);
     std::swap(other_vec.m_vec, m_vec);
+}
+
+MyVector& MyVector::operator=(const MyVector& vec) {
+    if (&vec == this)
+        return *this;
+    delete[] m_vec;
+    m_size = vec.m_size;
+    m_vec = new int[m_size];
+    for (int i = 0; i < m_size; i++)
+        m_vec[i] = vec.m_vec[i];
+    return *this;
+}
+
+MyVector& MyVector::operator=(MyVector&& vec) noexcept {
+    if (&vec == this)
+        return *this;
+    delete[] m_vec;
+    std::swap(vec.m_size, m_size);
+    std::swap(vec.m_vec, m_vec);
+    return *this;
 }
