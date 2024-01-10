@@ -14,10 +14,12 @@ public:
 public:
     MyVector& operator=(const MyVector& obj); // оператор копирующего присваивания
     MyVector& operator=(MyVector&& obj) noexcept; // оператор move присваивания
-    MyVector& operator+=(const MyVector& obj); // оператор +=
+    MyVector& operator+=(const MyVector& obj);
+    MyVector& operator++(); // постфиксный оператор ++
+    MyVector& operator--(); // постфиксный оператор ++
+    const MyVector operator++(int); // префиксный оператор ++
+    const MyVector operator--(int); // префиксный оператор ++
     MyVector& operator-();
-    MyVector& operator++();
-    const MyVector operator++(int);
 public:
     bool operator==(const MyVector& obj) const noexcept;
     bool operator!=(const MyVector& obj) const noexcept;
@@ -26,7 +28,7 @@ public:
     const MyVector& operator[](size_t index) const;
 public:
 //    size_t size() { return m_size; }
-    void print() {
+    void print() const {
         std::cout << "obj: ";
         for (size_t i = 0; i < m_size; i++)
             std::cout << m_arr[i];
@@ -94,4 +96,28 @@ MyVector& MyVector::operator+=(const MyVector& obj) {
     m_arr = temp->m_arr;
     m_size = temp->m_size;
     return *this;
+}
+
+MyVector& MyVector::operator++() {
+    for (int i = 0; i < m_size; i++)
+        ++m_arr[i];
+    return *this;
+}
+
+const MyVector MyVector::operator++(int) {
+    MyVector temp(*this);
+    ++*this;
+    return temp;
+}
+
+MyVector& MyVector::operator--() {
+    for (int i = 0; i < m_size; i++)
+        --m_arr[i];
+    return *this;
+}
+
+const MyVector MyVector::operator--(int) {
+    MyVector temp(*this);
+    --*this;
+    return temp;
 }
