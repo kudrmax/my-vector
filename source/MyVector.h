@@ -2,7 +2,7 @@
 #include <exception>
 #include <iostream>
 
-template <typename T>
+template<typename T>
 class MyVector {
 public:
     MyVector() = default; // конструктор по умолчанию
@@ -27,6 +27,10 @@ public:
     bool operator<(const MyVector& obj) const noexcept;
     bool operator>(const MyVector& obj) const noexcept;
 public:
+    MyVector operator*() const { return *m_arr; };
+    T* operator->() const { return m_arr; };
+    explicit operator int() const { return m_size; }
+public:
     T& operator[](int index);
     T& at(int index);
     const T& operator[](int index) const;
@@ -44,40 +48,40 @@ private:
     size_t m_size;
 };
 
-template <typename T>
+template<typename T>
 MyVector<T>::MyVector(size_t size) : m_size(size), m_arr(new T[size]) {};
 
-template <typename T>
+template<typename T>
 MyVector<T>::MyVector(size_t size, T num) : MyVector(size) {
     for (size_t i = 0; i < m_size; i++)
         m_arr[i] = num;
 }
 
-template <typename T>
+template<typename T>
 MyVector<T>::MyVector(std::initializer_list<T> list) : MyVector(list.size()) {
     for (auto it = list.begin(); it != list.end(); it++)
         m_arr[std::distance(list.begin(), it)] = *it;
 }
 
-template <typename T>
+template<typename T>
 MyVector<T>::~MyVector() {
     delete[] m_arr;
     m_arr = nullptr;
 }
 
-template <typename T>
+template<typename T>
 MyVector<T>::MyVector(const MyVector& obj) : MyVector(obj.m_size) {
     for (T i = 0; i < obj.m_size; i++)
         m_arr[i] = *(obj.m_arr + i);
 }
 
-template <typename T>
+template<typename T>
 MyVector<T>::MyVector(MyVector&& obj) noexcept {
     std::swap(obj.m_size, m_size);
     std::swap(obj.m_arr, m_arr);
 }
 
-template <typename T>
+template<typename T>
 MyVector<T>& MyVector<T>::operator=(const MyVector& obj) {
     if (&obj == this)
         return *this;
@@ -89,7 +93,7 @@ MyVector<T>& MyVector<T>::operator=(const MyVector& obj) {
     return *this;
 }
 
-template <typename T>
+template<typename T>
 MyVector<T>& MyVector<T>::operator=(MyVector&& obj) noexcept {
     if (&obj == this)
         return *this;
@@ -99,7 +103,7 @@ MyVector<T>& MyVector<T>::operator=(MyVector&& obj) noexcept {
     return *this;
 }
 
-template <typename T>
+template<typename T>
 MyVector<T>& MyVector<T>::operator+=(const MyVector& obj) {
     auto temp = new MyVector(m_size + obj.m_size);
     for (size_t i = 0; i < m_size; i++)
@@ -112,35 +116,35 @@ MyVector<T>& MyVector<T>::operator+=(const MyVector& obj) {
     return *this;
 }
 
-template <typename T>
+template<typename T>
 MyVector<T>& MyVector<T>::operator++() {
     for (T i = 0; i < m_size; i++)
         ++m_arr[i];
     return *this;
 }
 
-template <typename T>
+template<typename T>
 const MyVector<T> MyVector<T>::operator++(int) {
     MyVector temp(*this);
     ++*this;
     return temp;
 }
 
-template <typename T>
+template<typename T>
 MyVector<T>& MyVector<T>::operator--() {
     for (T i = 0; i < m_size; i++)
         --m_arr[i];
     return *this;
 }
 
-template <typename T>
+template<typename T>
 const MyVector<T> MyVector<T>::operator--(int) {
     MyVector temp(*this);
     --*this;
     return temp;
 }
 
-template <typename T>
+template<typename T>
 bool MyVector<T>::operator==(const MyVector& obj) const noexcept {
     if (m_arr == obj.m_arr)
         return true;
@@ -152,12 +156,12 @@ bool MyVector<T>::operator==(const MyVector& obj) const noexcept {
     return true;
 }
 
-template <typename T>
+template<typename T>
 bool MyVector<T>::operator!=(const MyVector& obj) const noexcept {
     return !(*this == obj);
 }
 
-template <typename T>
+template<typename T>
 bool MyVector<T>::operator<(const MyVector& obj) const noexcept {
     for (T i = 0; i < std::min(m_size, obj.m_size); i++) {
         if (m_arr[i] < obj.m_arr[i])
@@ -170,36 +174,36 @@ bool MyVector<T>::operator<(const MyVector& obj) const noexcept {
     return false;
 }
 
-template <typename T>
+template<typename T>
 bool MyVector<T>::operator>(const MyVector& obj) const noexcept {
     return !(*this < obj) && !(*this == obj);
 }
 
-template <typename T>
+template<typename T>
 const MyVector<T> MyVector<T>::operator+(const MyVector& obj) {
     MyVector temp(*this);
     temp += obj;
     return temp;
 }
 
-template <typename T>
+template<typename T>
 T& MyVector<T>::operator[](int index) {
     return m_arr[index];
 }
 
-template <typename T>
+template<typename T>
 const T& MyVector<T>::operator[](int index) const {
     return m_arr[index];
 }
 
-template <typename T>
+template<typename T>
 T& MyVector<T>::at(int index) {
     if (!(0 <= index && index < m_size))
         throw std::runtime_error("Out of range!");
     return operator[](index);
 }
 
-template <typename T>
+template<typename T>
 const T& MyVector<T>::at(int index) const {
     if (!(0 <= index && index < m_size))
         throw std::runtime_error("Out of range!");
