@@ -21,7 +21,14 @@ public:
         delete[] arr;
         arr = nullptr;
     }
+
+    // конструктор копирования
+    MyVector(const MyVector& other_arr) : MyVector(other_arr.m_size) {
+        for (int i = 0; i < other_arr.m_size; i++)
+            arr[i] = *(other_arr.arr + i);
+    }
 public:
+//    size_t size() { return m_size; }
     void print() {
         for (size_t i = 0; i < m_size; i++)
             std::cout << arr[i];
