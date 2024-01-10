@@ -23,6 +23,8 @@ public:
 public:
     bool operator==(const MyVector& obj) const noexcept;
     bool operator!=(const MyVector& obj) const noexcept;
+    bool operator<(const MyVector& obj) const noexcept;
+    bool operator>(const MyVector& obj) const noexcept;
 public:
     MyVector& operator[](size_t index);
     const MyVector& operator[](size_t index) const;
@@ -120,4 +122,34 @@ const MyVector MyVector::operator--(int) {
     MyVector temp(*this);
     --*this;
     return temp;
+}
+
+bool MyVector::operator==(const MyVector& obj) const noexcept {
+    if (m_arr == obj.m_arr)
+        return true;
+    if (m_size != obj.m_size)
+        return false;
+    for (int i = 0; i < m_size; i++)
+        if (m_arr[i] != obj.m_arr[i])
+            return false;
+    return true;
+}
+
+bool MyVector::operator!=(const MyVector& obj) const noexcept {
+    return !(*this == obj);
+}
+
+bool MyVector::operator<(const MyVector& obj) const noexcept {
+    for (int i = 0; i < std::min(m_size, obj.m_size); i++) {
+        if (m_arr[i] < obj.m_arr[i])
+            return true;
+        if (m_arr[i] > obj.m_arr[i])
+            return false;
+    }
+    if (m_size < obj.m_size)
+        return true;
+    return false;
+}
+bool MyVector::operator>(const MyVector& obj) const noexcept {
+    return !(*this < obj) && !(*this == obj);
 }

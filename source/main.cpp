@@ -1,9 +1,8 @@
 #include "MyVector.h"
 
 int main() {
-    MyVector vec = { 1, 2, 3, 4, 5 };
-    (vec++).print();
-    (--vec).print();
-    const MyVector temp = { 5, 5, 5 };
+    MyVector vec1 = { 1, 2, 3, 4 };
+    MyVector vec2 = { 1, 2, 3 };
+    std::cout << (vec1 > vec2) << std::endl;
     return 0;
 }
