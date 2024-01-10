@@ -1,9 +1,6 @@
 #include "MyVector.h"
 
 int main() {
-    MyVector vec1 = { 1, 2, 3 };
-    MyVector vec2 = { 4, 5 };
-    auto temp = vec1 + vec2;
-    temp.print();
-    return 0;
+    MyVector vec = { 1, 2, 3, 4, 5 };
+    std::cout << vec.at(-1);
 }

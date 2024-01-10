@@ -1,4 +1,5 @@
 #include <initializer_list>
+#include <exception>
 #include <iostream>
 
 //template <typename T>
@@ -26,8 +27,10 @@ public:
     bool operator<(const MyVector& obj) const noexcept;
     bool operator>(const MyVector& obj) const noexcept;
 public:
-    MyVector& operator[](size_t index);
-    const MyVector& operator[](size_t index) const;
+    int& operator[](int index);
+    int& at(int index);
+    const int& operator[](int index) const;
+    const int& at(int index) const;
 public:
 //    size_t size() { return m_size; }
     void print() const {
@@ -159,4 +162,24 @@ const MyVector MyVector::operator+(const MyVector& obj) {
     MyVector temp(*this);
     temp += obj;
     return temp;
+}
+
+int& MyVector::operator[](int index) {
+    return m_arr[index];
+}
+
+const int& MyVector::operator[](int index) const {
+    return m_arr[index];
+}
+
+int& MyVector::at(int index) {
+    if (!(0 <= index && index < m_size))
+        throw std::runtime_error("Out of range!");
+    return operator[](index);
+}
+
+const int& MyVector::at(int index) const {
+    if (!(0 <= index && index < m_size))
+        throw std::runtime_error("Out of range!");
+    return operator[](index);
 }
