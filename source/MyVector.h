@@ -19,7 +19,7 @@ public:
     MyVector& operator--(); // постфиксный оператор ++
     const MyVector operator++(int); // префиксный оператор ++
     const MyVector operator--(int); // префиксный оператор ++
-    MyVector& operator-();
+    const MyVector operator+(const MyVector& obj);
 public:
     bool operator==(const MyVector& obj) const noexcept;
     bool operator!=(const MyVector& obj) const noexcept;
@@ -150,6 +150,13 @@ bool MyVector::operator<(const MyVector& obj) const noexcept {
         return true;
     return false;
 }
+
 bool MyVector::operator>(const MyVector& obj) const noexcept {
     return !(*this < obj) && !(*this == obj);
+}
+
+const MyVector MyVector::operator+(const MyVector& obj) {
+    MyVector temp(*this);
+    temp += obj;
+    return temp;
 }
