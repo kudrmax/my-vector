@@ -1,6 +1,6 @@
 #include "MyVector.h"
 
 int main() {
-    MyVector vec = { 1, 2, 3, 4, 5 };
-    std::cout << vec.at(-1);
+    MyVector<double> vec = { 1.5, 2.0 };
+    std::cout << vec.at(0);
 }
